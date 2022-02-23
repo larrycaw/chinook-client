@@ -141,9 +141,55 @@ namespace chinook_client.Repositories
             throw new NotImplementedException();
         }
 
-        public List<Customer> GetCustomersPage(int limit, int offset)
+        public List<Customer> GetCustomersPage(int offset, int limit)
         {
-            throw new NotImplementedException();
+            List<Customer> customers = new List<Customer>();
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                "FROM Customer " +
+                "ORDER BY CustomerId " +
+                "OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY";
+            //string sql = "SELECT FirstName, LastName, Country, " +
+            //    "PostalCode, Phone, Email " +
+            //    "FROM Customer " +
+            //    "ORDER BY LastName " +
+            //    "LIMIT @Limit OFFSET @Offset";
+
+            try
+            {
+                // Connect
+                using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    // Make a command
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Limit", limit);
+                        cmd.Parameters.AddWithValue("@Offset", offset);
+                        // Reader
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // Handle result
+                                Customer temp = new Customer();
+                                temp.Id = reader.GetInt32(0);
+                                temp.FirstName = reader.GetString(1);
+                                temp.LastName = reader.GetString(2);
+                                temp.Country = reader.IsDBNull(3) ? null : reader.GetString(3);
+                                temp.PostalCode = reader.IsDBNull(4) ? null : reader.GetString(4);
+                                temp.PhoneNumber = reader.IsDBNull(5) ? null : reader.GetString(5);
+                                temp.Email = reader.GetString(6);
+                                customers.Add(temp);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return customers;
         }
 
         public List<CustomerSpender> GetHighSpendersDesc()
