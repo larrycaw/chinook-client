@@ -14,5 +14,21 @@ namespace chinook_client.Repositories
         /// </summary>
         /// <returns>List containing all customers</returns>
         public List<Customer> GetAllCustomers();
+
+        public Customer GetCustomerById(int id);
+
+        public Customer GetCustomerByName(string name);
+
+        public List<Customer> GetCustomersPage(int limit, int offset);
+
+        public bool AddNewCustomer(Customer customer);
+
+        public bool UpdateCustomer(Customer customer);
+
+        public List<CustomerCountry> GetNumberOfCustomersPerCountry();
+
+        public List<CustomerSpender> GetHighSpendersDesc();
+
+        public CustomerGenre GetCustomerFavoriteGenre();
     }
 }

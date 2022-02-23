@@ -10,6 +10,11 @@ namespace chinook_client.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
+        public bool AddNewCustomer(Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customers = new List<Customer>();
@@ -50,6 +55,41 @@ namespace chinook_client.Repositories
                 Console.WriteLine(ex.Message);
             }
             return customers;
+        }
+
+        public Customer GetCustomerById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Customer GetCustomerByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CustomerGenre GetCustomerFavoriteGenre()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Customer> GetCustomersPage(int limit, int offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CustomerSpender> GetHighSpendersDesc()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CustomerCountry> GetNumberOfCustomersPerCountry()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateCustomer(Customer customer)
+        {
+            throw new NotImplementedException();
         }
     }
 }
