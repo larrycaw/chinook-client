@@ -10,7 +10,7 @@ namespace chinook_client
         static void Main(string[] args)
         {
             ICustomerRepository repository = new CustomerRepository();
-            SelectCustomerById(repository);
+            SelectCustomerByName(repository);
         }
 
         static void SelectAllCustomers(ICustomerRepository repository)
@@ -21,6 +21,11 @@ namespace chinook_client
         static void SelectCustomerById(ICustomerRepository repository)
         {
             PrintCustomer(repository.GetCustomerById(1));
+        }
+
+        static void SelectCustomerByName(ICustomerRepository repository)
+        {
+            PrintCustomer(repository.GetCustomerByName("%Bjørn%"));
         }
 
         static void PrintCustomers(IEnumerable<Customer> customers)
