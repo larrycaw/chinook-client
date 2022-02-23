@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace chinook_client.Models
 {
-    internal class CustomerSpender
+    public class CustomerSpender
     {
     }
 }

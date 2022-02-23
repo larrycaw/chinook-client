@@ -59,7 +59,41 @@ namespace chinook_client.Repositories
 
         public Customer GetCustomerById(int id)
         {
-            throw new NotImplementedException();
+            Customer customer = new Customer();
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, " +
+                "PostalCode, Phone, Email " +
+                "FROM Customer " +
+                "WHERE CustomerId = @Id";
+            try
+            {
+                using (SqlConnection conn =
+                    new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", id);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                customer.Id = reader.GetInt32(0);
+                                customer.FirstName = reader.GetString(1);
+                                customer.LastName = reader.GetString(2);
+                                customer.Country = reader.IsDBNull(3) ? null : reader.GetString(3);
+                                customer.PostalCode = reader.IsDBNull(4) ? null : reader.GetString(4);
+                                customer.PhoneNumber = reader.IsDBNull(5) ? null : reader.GetString(5);
+                                customer.Email = reader.GetString(6);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return customer;
         }
 
         public Customer GetCustomerByName(string name)
