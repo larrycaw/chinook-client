@@ -222,7 +222,41 @@ namespace chinook_client.Repositories
 
         public List<CustomerSpender> GetHighSpendersDesc()
         {
-            throw new NotImplementedException();
+            List<CustomerSpender> customers = new List<CustomerSpender>();
+            string sql =
+                "SELECT CONCAT(c.FirstName, ' ', c.LastName) AS FullName," +
+                    "SUM(i.Total) AS Spending " +
+                "FROM Customer c " +
+                    "LEFT JOIN Invoice i " +
+                        "ON c.CustomerID = i.CustomerID " +
+                "GROUP BY CONCAT(c.FirstName, ' ', c.LastName) " +
+                "ORDER BY Spending DESC";
+            
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                CustomerSpender temp = new CustomerSpender();
+                                temp.FullName = reader.GetString(0); 
+                                temp.Spending = reader.IsDBNull(1) ? null : reader.GetDecimal(1);
+                                customers.Add(temp);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return customers;
         }
 
         public List<CustomerCountry> GetNumberOfCustomersPerCountry()
