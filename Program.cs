@@ -10,7 +10,7 @@ namespace chinook_client
         static void Main(string[] args)
         {
             ICustomerRepository repository = new CustomerRepository();
-            SelectHighSpenders(repository);
+            SelectFavoriteGenre(repository);
         }
 
         static void SelectAllCustomers(ICustomerRepository repository)
@@ -41,6 +41,11 @@ namespace chinook_client
         static void SelectHighSpenders(ICustomerRepository repository)
         {
             PrintCustomerSpenders(repository.GetHighSpendersDesc());
+        }
+
+        static void SelectFavoriteGenre(ICustomerRepository repository)
+        {
+            PrintFavoriteGenres(repository.GetCustomerFavoriteGenre(12));
         }
 
         static void InsertCustomer(ICustomerRepository repository)
@@ -111,6 +116,18 @@ namespace chinook_client
             }
         }
 
+        static void PrintFavoriteGenres(CustomerGenre customerGenres)
+        {
+            //foreach(CustomerGenre customerGenre in customerGenres)
+            //{
+            //    PrintFavoriteGenre(customerGenre);
+
+            foreach (String customerGenre in customerGenres.Genres)
+            {
+                PrintFavoriteGenre(customerGenre);
+            }
+        }
+
         static void PrintCustomer(Customer customer)
         {
             Console.WriteLine($"-- { customer.Id} {customer.FirstName} {customer.LastName} {customer.Country} {customer.PostalCode} { customer.PhoneNumber} {customer.Email} --");
@@ -124,6 +141,11 @@ namespace chinook_client
         static void PrintCustomerSpender(CustomerSpender customerSpender)
         {
             Console.WriteLine($"-- { customerSpender.FullName} { customerSpender.Spending } --");
+        }
+
+        static void PrintFavoriteGenre(String customerGenre)
+        {
+            Console.WriteLine($"-- {customerGenre} --");
         }
     }
 }

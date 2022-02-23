@@ -29,6 +29,6 @@ namespace chinook_client.Repositories
 
         public List<CustomerSpender> GetHighSpendersDesc();
 
-        public CustomerGenre GetCustomerFavoriteGenre();
+        public CustomerGenre GetCustomerFavoriteGenre(int id);
     }
 }

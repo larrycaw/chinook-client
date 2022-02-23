@@ -56,19 +56,15 @@ namespace chinook_client.Repositories
                 "FROM Customer";
             try
             {
-                // Connect
                 using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    // Make a command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        // Reader
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                // Handle result
                                 Customer temp = new Customer();
                                 temp.Id = reader.GetInt32(0);
                                 temp.FirstName = reader.GetString(1);
@@ -169,9 +165,41 @@ namespace chinook_client.Repositories
             return customer;
         }
 
-        public CustomerGenre GetCustomerFavoriteGenre()
+        public CustomerGenre GetCustomerFavoriteGenre(int id)
         {
-            throw new NotImplementedException();
+            CustomerGenre customers = new CustomerGenre();
+            string sql =
+                " WITH temp AS " +
+                "(" +
+                "SELECT Genre.Name, COUNT(*) as Occurrenses " +
+                "FROM Invoice INNER JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId AND Invoice.CustomerId = @CustomerId" +
+                " INNER JOIN Track ON InvoiceLine.TrackId = Track.TrackId INNER JOIN Genre ON Track.GenreId = Genre.GenreId GROUP BY Genre.Name" +
+                ") " +
+                "SELECT Name FROM temp WHERE temp.Occurrenses = (SELECT MAX(Occurrenses) FROM temp)";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@CustomerId", id);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                customers.Genres.Add(reader.GetString(0));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return customers;
         }
 
         public List<Customer> GetCustomersPage(int offset, int limit)
