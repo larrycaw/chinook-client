@@ -10,7 +10,7 @@ namespace chinook_client
         static void Main(string[] args)
         {
             ICustomerRepository repository = new CustomerRepository();
-            InsertCustomer(repository);
+            UpdateCustomer(repository);
         }
 
         static void SelectAllCustomers(ICustomerRepository repository)
@@ -47,6 +47,28 @@ namespace chinook_client
             if (repository.AddNewCustomer(customer))
             {
                 Console.WriteLine("Yay, insert worked");
+            }
+            else
+            {
+                Console.WriteLine("Boo!");
+            }
+        }
+
+        static void UpdateCustomer(ICustomerRepository repository)
+        {
+            Customer customer = new Customer()
+            {
+                Id = 59,
+                FirstName = "Ron",
+                LastName = "Weasly",
+                Country = "England",
+                PostalCode = "CH61 2CE",
+                PhoneNumber = "(605) 455-6691",
+                Email = "ron.weasly@student.hogwarts.com"
+            };
+            if (repository.UpdateCustomer(customer))
+            {
+                Console.WriteLine("Yay, update worked");
             }
             else
             {

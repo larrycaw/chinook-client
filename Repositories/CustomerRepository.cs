@@ -232,7 +232,43 @@ namespace chinook_client.Repositories
 
         public bool UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            bool success = false;
+            string sql = "UPDATE Customer SET FirstName = @FirstName, " +
+                "LastName = @LastName, Country = @Country, " +
+                "PostalCode = @PostalCode, Phone = @Phone, Email = @Email " +
+                "WHERE CustomerId = @CustomerId";
+
+            try
+            {
+                using (SqlConnection conn =
+                    new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FirstName",
+                            customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName",
+                            customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country",
+                            customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode",
+                            customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone",
+                            customer.PhoneNumber);
+                        cmd.Parameters.AddWithValue("@Email",
+                            customer.Email);
+                        cmd.Parameters.AddWithValue("@CustomerId",
+                            customer.Id);
+                        success = cmd.ExecuteNonQuery() > 0 ? true : false;
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return success;
         }
     }
 }
