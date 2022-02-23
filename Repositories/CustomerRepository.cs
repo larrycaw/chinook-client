@@ -12,7 +12,40 @@ namespace chinook_client.Repositories
     {
         public bool AddNewCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            bool success = false;
+            string sql = "INSERT INTO Customer(FirstName, LastName, Country, " +
+                "PostalCode, Phone, Email) VALUES (@FirstName, @LastName, " +
+                "@Country, @PostalCode, @Phone, @Email)";
+
+            try
+            {
+                using (SqlConnection conn =
+                    new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FirstName",
+                            customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName",
+                            customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country",
+                            customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode",
+                            customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone",
+                            customer.PhoneNumber);
+                        cmd.Parameters.AddWithValue("@Email",
+                            customer.Email);
+                        success = cmd.ExecuteNonQuery() > 0 ? true : false;
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return success;
         }
 
         public List<Customer> GetAllCustomers()
@@ -148,11 +181,6 @@ namespace chinook_client.Repositories
                 "FROM Customer " +
                 "ORDER BY CustomerId " +
                 "OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY";
-            //string sql = "SELECT FirstName, LastName, Country, " +
-            //    "PostalCode, Phone, Email " +
-            //    "FROM Customer " +
-            //    "ORDER BY LastName " +
-            //    "LIMIT @Limit OFFSET @Offset";
 
             try
             {

@@ -10,7 +10,7 @@ namespace chinook_client
         static void Main(string[] args)
         {
             ICustomerRepository repository = new CustomerRepository();
-            SelectCustomerPage(repository);
+            InsertCustomer(repository);
         }
 
         static void SelectAllCustomers(ICustomerRepository repository)
@@ -31,6 +31,27 @@ namespace chinook_client
         static void SelectCustomerPage(ICustomerRepository repository)
         {
             PrintCustomers(repository.GetCustomersPage(5, 10));
+        }
+
+        static void InsertCustomer(ICustomerRepository repository)
+        {
+            Customer customer = new Customer()
+            {
+                FirstName = "Harry",
+                LastName = "Potter",
+                Country = "England",
+                PostalCode = "CH61 1DE",
+                PhoneNumber = "(605) 475-6961",
+                Email = "harry.potter@student.hogwarts.com"
+            };
+            if (repository.AddNewCustomer(customer))
+            {
+                Console.WriteLine("Yay, insert worked");
+            }
+            else
+            {
+                Console.WriteLine("Boo!");
+            }
         }
 
         static void PrintCustomers(IEnumerable<Customer> customers)
