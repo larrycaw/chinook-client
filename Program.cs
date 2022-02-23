@@ -10,7 +10,7 @@ namespace chinook_client
         static void Main(string[] args)
         {
             ICustomerRepository repository = new CustomerRepository();
-            UpdateCustomer(repository);
+            SelectNumberOfCustomersPerCountry(repository);
         }
 
         static void SelectAllCustomers(ICustomerRepository repository)
@@ -33,6 +33,11 @@ namespace chinook_client
             PrintCustomers(repository.GetCustomersPage(5, 10));
         }
 
+        static void SelectNumberOfCustomersPerCountry(ICustomerRepository repository)
+        {
+            PrintCustomerCountries(repository.GetNumberOfCustomersPerCountry());
+        }
+
         static void InsertCustomer(ICustomerRepository repository)
         {
             Customer customer = new Customer()
@@ -53,6 +58,7 @@ namespace chinook_client
                 Console.WriteLine("Boo!");
             }
         }
+
 
         static void UpdateCustomer(ICustomerRepository repository)
         {
@@ -84,9 +90,22 @@ namespace chinook_client
             }
         }
 
+        static void PrintCustomerCountries(IEnumerable<CustomerCountry> customerCountries)
+        {
+            foreach (CustomerCountry customerCountry in customerCountries)
+            {
+                PrintCustomerCountry(customerCountry);
+            }
+        }
+
         static void PrintCustomer(Customer customer)
         {
             Console.WriteLine($"-- { customer.Id} {customer.FirstName} {customer.LastName} {customer.Country} {customer.PostalCode} { customer.PhoneNumber} {customer.Email} --");
+        }
+
+        static void PrintCustomerCountry(CustomerCountry customerCountry)
+        {
+            Console.WriteLine($"-- { customerCountry.Country } { customerCountry.AmountOfCustomers } --");
         }
     }
 }

@@ -227,7 +227,36 @@ namespace chinook_client.Repositories
 
         public List<CustomerCountry> GetNumberOfCustomersPerCountry()
         {
-            throw new NotImplementedException();
+            List<CustomerCountry> customers = new List<CustomerCountry>();
+            string sql = "SELECT Country, COUNT(CustomerId) AS Customers " +
+                "FROM Customer " +
+                "GROUP BY Country " +
+                "ORDER BY Customers DESC";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                CustomerCountry temp = new CustomerCountry();
+                                temp.Country = reader.GetString(0);
+                                temp.AmountOfCustomers = reader.GetInt32(1);
+                                customers.Add(temp);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return customers;
         }
 
         public bool UpdateCustomer(Customer customer)
