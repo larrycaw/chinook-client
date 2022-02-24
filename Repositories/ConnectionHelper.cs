@@ -16,7 +16,8 @@ namespace chinook_client.Repositories
         public static string GetConnectionString()
         {
             SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder();
-            connectionStringBuilder.DataSource = @"ISAK-DESKTOP\SQLEXPRESS";
+            //connectionStringBuilder.DataSource = @"ISAK-DESKTOP\SQLEXPRESS";
+            connectionStringBuilder.DataSource = @"DESKTOP-KAM7GHR\SQLEXPRESS";
             connectionStringBuilder.InitialCatalog = "Chinook";
             connectionStringBuilder.IntegratedSecurity = true;
             connectionStringBuilder.TrustServerCertificate = true;

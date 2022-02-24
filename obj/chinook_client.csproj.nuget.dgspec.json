@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Isak\\source\\repos\\chinook_client\\chinook_client.csproj": {}
+    "C:\\Users\\filip\\Source\\Repos\\new\\chinook_client.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Isak\\source\\repos\\chinook_client\\chinook_client.csproj": {
+    "C:\\Users\\filip\\Source\\Repos\\new\\chinook_client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Isak\\source\\repos\\chinook_client\\chinook_client.csproj",
+        "projectUniqueName": "C:\\Users\\filip\\Source\\Repos\\new\\chinook_client.csproj",
         "projectName": "chinook_client",
-        "projectPath": "C:\\Users\\Isak\\source\\repos\\chinook_client\\chinook_client.csproj",
-        "packagesPath": "C:\\Users\\Isak\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Isak\\source\\repos\\chinook_client\\obj\\",
+        "projectPath": "C:\\Users\\filip\\Source\\Repos\\new\\chinook_client.csproj",
+        "packagesPath": "C:\\Users\\filip\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\filip\\Source\\Repos\\new\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Isak\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\filip\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -64,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
