@@ -9,10 +9,13 @@ namespace chinook_client
     {
         static void Main(string[] args)
         {
+            //All methods were tested through main, below is the last test which tests fetching a customers favourite genre(s)
             ICustomerRepository repository = new CustomerRepository();
             SelectFavoriteGenre(repository, repository.GetCustomerById(12));
         }
 
+        // Fetches from database through the repository and calls print initiation methods
+        #region Select Queries
         static void SelectAllCustomers(ICustomerRepository repository)
         {
             PrintCustomers(repository.GetAllCustomers());
@@ -47,7 +50,10 @@ namespace chinook_client
         {
             PrintFavoriteGenres(repository.GetCustomerFavoriteGenre(customer));
         }
+        #endregion
 
+        // Inserts data into the database through the repository
+        #region Insert Queries
         static void InsertCustomer(ICustomerRepository repository)
         {
             Customer customer = new Customer()
@@ -68,8 +74,10 @@ namespace chinook_client
                 Console.WriteLine("Boo!");
             }
         }
+        #endregion
 
-
+        // Updates data in the database through the repositopy
+        #region Update Queries
         static void UpdateCustomer(ICustomerRepository repository)
         {
             Customer customer = new Customer()
@@ -92,6 +100,10 @@ namespace chinook_client
             }
         }
 
+        #endregion
+
+        // Loops over data recieved through repository and forwards it for printing to the Console Print Methods
+        #region Print initialiser methods
         static void PrintCustomers(IEnumerable<Customer> customers)
         {
             foreach (Customer customer in customers)
@@ -118,16 +130,15 @@ namespace chinook_client
 
         static void PrintFavoriteGenres(CustomerGenre customerGenres)
         {
-            //foreach(CustomerGenre customerGenre in customerGenres)
-            //{
-            //    PrintFavoriteGenre(customerGenre);
-
             foreach (String customerGenre in customerGenres.Genres)
             {
                 PrintFavoriteGenre(customerGenre);
             }
         }
+        #endregion
 
+        // Prints data to the console
+        #region Console Print Methods
         static void PrintCustomer(Customer customer)
         {
             Console.WriteLine($"-- { customer.Id} {customer.FirstName} {customer.LastName} {customer.Country} {customer.PostalCode} { customer.PhoneNumber} {customer.Email} --");
@@ -147,5 +158,7 @@ namespace chinook_client
         {
             Console.WriteLine($"-- {customerGenre} --");
         }
+
+        #endregion
     }
 }
