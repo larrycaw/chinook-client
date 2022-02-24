@@ -10,7 +10,7 @@ namespace chinook_client
         static void Main(string[] args)
         {
             ICustomerRepository repository = new CustomerRepository();
-            SelectFavoriteGenre(repository);
+            SelectFavoriteGenre(repository, repository.GetCustomerById(12));
         }
 
         static void SelectAllCustomers(ICustomerRepository repository)
@@ -43,9 +43,9 @@ namespace chinook_client
             PrintCustomerSpenders(repository.GetHighSpendersDesc());
         }
 
-        static void SelectFavoriteGenre(ICustomerRepository repository)
+        static void SelectFavoriteGenre(ICustomerRepository repository, Customer customer)
         {
-            PrintFavoriteGenres(repository.GetCustomerFavoriteGenre(12));
+            PrintFavoriteGenres(repository.GetCustomerFavoriteGenre(customer));
         }
 
         static void InsertCustomer(ICustomerRepository repository)

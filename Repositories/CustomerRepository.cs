@@ -165,9 +165,10 @@ namespace chinook_client.Repositories
             return customer;
         }
 
-        public CustomerGenre GetCustomerFavoriteGenre(int id)
+        public CustomerGenre GetCustomerFavoriteGenre(Customer customer)
         {
-            CustomerGenre customers = new CustomerGenre();
+            CustomerGenre customerGenre = new CustomerGenre();
+            customerGenre.FullName = customer.FirstName + customer.LastName;
             string sql =
                 " WITH temp AS " +
                 "(" +
@@ -184,12 +185,12 @@ namespace chinook_client.Repositories
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        cmd.Parameters.AddWithValue("@CustomerId", id);
+                        cmd.Parameters.AddWithValue("@CustomerId", customer.Id);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                customers.Genres.Add(reader.GetString(0));
+                                customerGenre.Genres.Add(reader.GetString(0));
                             }
                         }
                     }
@@ -199,7 +200,7 @@ namespace chinook_client.Repositories
             {
                 Console.WriteLine(ex.Message);
             }
-            return customers;
+            return customerGenre;
         }
 
         public List<Customer> GetCustomersPage(int offset, int limit)
